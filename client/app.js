@@ -94,6 +94,6 @@ App = {
     await App.tasksContract.toggleDone(taskId, {
       from: App.account,
     });
-    window.location.reload();
+    //window.location.reload();
   },
 };

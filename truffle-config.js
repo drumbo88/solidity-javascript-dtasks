@@ -18,8 +18,9 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-// const infuraKey = "fj4jll3k.....";
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+//const infuraKey = "0x4398a583cee2ae25369a6af83052b9d5761724ccb5a8f547e986ad6797c23b9f";
+const privateKeys = ["0x4398a583cee2ae25369a6af83052b9d5761724ccb5a8f547e986ad6797c23b9f"];
 //
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
@@ -43,10 +44,17 @@ module.exports = {
     // options below to some value.
     //
     development: {
-     host: "127.0.0.1",     // Localhost (default: none)
-     port: 7545,            // Standard Ethereum port (default: none)
-     network_id: "*",       // Any network (default: none)
+      host: "127.0.0.1",     // Localhost (default: none)
+      port: 7545,            // Standard Ethereum port (default: none)
+      network_id: "*",       // Any network (default: none)
     },
+    bscTestnet: {
+      provider: () => new HDWalletProvider(
+        privateKeys, 'https://data-seed-prebsc-1-s1.binance.org:8545/'
+      ),
+      network_id: 97,
+      skipDryRun: true
+    }
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
