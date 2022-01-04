@@ -44,7 +44,7 @@ App = {
     const tasksCounter = await App.tasksContract.tasksCounter();
     const taskCounterNumber = tasksCounter.toNumber();
 
-    let html = "";
+    let html = ""; 
 
     for (let i = 1; i <= taskCounterNumber; i++) {
       const task = await App.tasksContract.tasks(i);

@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
  * Task form
  */
 const taskForm = document.querySelector("#taskForm");
-alert('xx')
+
 taskForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const title = taskForm["title"].value;
