@@ -1,38 +1,52 @@
 App = {
   contracts: {},
   init: async () => {
-    await App.loadWeb3();
-    await App.loadAccount();
-    await App.loadContract();
-    await App.render();
-    await App.renderTasks();
+    App.loadWeb3().then(async () => {
+      await App.loadAccount();
+      await App.loadContract();
+      await App.render();
+      await App.renderTasks();
+    }).catch((error) => {
+      alert(error)
+    });
   },
   loadWeb3: async () => {
     if (window.ethereum) {
       App.web3Provider = window.ethereum;
-      await window.ethereum.request({ method: "eth_requestAccounts" });
     } else if (web3) {
-      web3 = new Web3(window.web3.currentProvider);
+      App.web3Provider = new Web3(window.web3.currentProvider);
     } else {
-      console.log(
-        "No ethereum browser is installed. Try it installing MetaMask "
+      throw new Error(
+        'Necesita una billetera de blockchain. Pruebe Metamask.'
+      );
+    }
+    if (App.web3Provider.networkVersion != '5777') {
+      throw new Error(
+        'Debe conectarse a la blockchain 5777.'
       );
     }
   },
   loadAccount: async () => {
-    const accounts = await window.ethereum.request({
+    window.ethereum.request({
       method: "eth_requestAccounts",
+    }).then((accounts) => {
+      alert('FFF')
+      App.account = accounts[0];
     });
-    App.account = accounts[0];
   },
   loadContract: async () => {
     try {
       const res = await fetch("TasksContract.json");
       const tasksContractJSON = await res.json();
+      console.log(tasksContractJSON)
+      alert('A')
       App.contracts.TasksContract = TruffleContract(tasksContractJSON);
+      alert('B')
       App.contracts.TasksContract.setProvider(App.web3Provider);
-
+      alert('C')
+      
       App.tasksContract = await App.contracts.TasksContract.deployed();
+      alert('D')
     } catch (error) {
       console.error(error);
     }
